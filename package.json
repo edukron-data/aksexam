@@ -5,7 +5,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start:prod": "NODE_ENV=production node server.js",
+    "serve": "npx serve . -s",
+    "build": "echo \"Static site — no build step\"",
+    "format": "echo \"Install prettier and run: npx prettier --write .\"",
+    "lint": "echo \"Install eslint and run: npx eslint .\"",
+    "test": "echo \"No tests configured\" && exit 0",
+    "export:csv": "node tools/export_submissions_csv.js",
+    "clean": "node -e \"const fs=require('fs'); try{fs.unlinkSync('submissions.json');console.log('deleted submissions.json')}catch(e){console.log('nothing to delete')}\"",
+    "prepare": "echo \"prepare step - install husky if desired\"",
+    "snapshot": "git add . && git commit -m \"snapshot\" || echo \"no changes to commit\""
   },
   "dependencies": {
     "body-parser": "^1.20.2",
