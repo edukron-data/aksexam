@@ -1,0 +1,83 @@
+{
+  "title": "AKS Exam Quiz: Azure DevOps, AKS, Terraform",
+  "questions": [
+    {
+      "id": "azdev-1",
+      "topic": "Azure DevOps",
+      "type": "mcq",
+      "question": "Which Azure DevOps artifact stores pipeline run logs and build artifacts?",
+      "choices": ["Repos", "Artifacts", "Pipelines", "Boards"],
+      "answerIndex": 1,
+      "explanation": "Azure Artifacts is used for package feeds; pipeline artifacts are stored as pipeline artifacts tied to Pipelines. In the context of storing build artifacts, 'Artifacts' is the closest match."
+    },
+    {
+      "id": "azdev-2",
+      "topic": "Azure DevOps",
+      "type": "mcq",
+      "question": "What is the purpose of a YAML file in Azure Pipelines?",
+      "choices": ["Store pipeline variables only", "Define pipeline stages and steps as code", "Hold build artifacts", "Manage Azure resources"],
+      "answerIndex": 1,
+      "explanation": "YAML files define the pipeline as code: stages, jobs, and steps."
+    },
+    {
+      "id": "azdev-3",
+      "topic": "Azure DevOps",
+      "type": "text",
+      "question": "Name two built-in service connections in Azure DevOps for deploying to Azure.",
+      "answerText": "Azure Resource Manager, Docker Registry",
+      "explanation": "Common service connections include 'Azure Resource Manager' (ARM) and container registries; users may supply names of valid service connections."
+    },
+    {
+      "id": "aks-1",
+      "topic": "AKS",
+      "type": "mcq",
+      "question": "Which orchestration component schedules pods onto nodes in an AKS cluster?",
+      "choices": ["kubelet", "kube-scheduler", "etcd", "kube-proxy"],
+      "answerIndex": 1,
+      "explanation": "The kube-scheduler assigns pods to nodes based on resource requirements and constraints."
+    },
+    {
+      "id": "aks-2",
+      "topic": "AKS",
+      "type": "mcq",
+      "question": "How do you upgrade the Kubernetes version of an AKS cluster?",
+      "choices": ["kubectl apply -f upgrade.yaml", "az aks upgrade --name <cluster> --resource-group <rg>", "helm upgrade cluster", "terraform plan -upgrade"],
+      "answerIndex": 1,
+      "explanation": "Use the Azure CLI command 'az aks upgrade' to upgrade cluster Kubernetes versions."
+    },
+    {
+      "id": "aks-3",
+      "topic": "AKS",
+      "type": "text",
+      "question": "Describe briefly what a Kubernetes 'Deployment' provides compared to a single Pod.",
+      "answerText": "Replication, rolling updates, self-healing",
+      "explanation": "Deployments provide replica management, rolling updates, and restore-on-failure behavior."
+    },
+    {
+      "id": "tf-1",
+      "topic": "Terraform",
+      "type": "mcq",
+      "question": "What command shows the execution plan that Terraform will perform?",
+      "choices": ["terraform apply", "terraform plan", "terraform init", "terraform show"],
+      "answerIndex": 1,
+      "explanation": "'terraform plan' previews changes without applying them."
+    },
+    {
+      "id": "tf-2",
+      "topic": "Terraform",
+      "type": "mcq",
+      "question": "Which of these is a Terraform state backend option?",
+      "choices": ["local file", "S3/Blob Storage", "Consul", "All of the above"],
+      "answerIndex": 3,
+      "explanation": "Terraform supports multiple backends including local files, S3/Azure Blob, Consul, and remote backends."
+    },
+    {
+      "id": "tf-3",
+      "topic": "Terraform",
+      "type": "text",
+      "question": "What is the purpose of 'terraform init'?",
+      "answerText": "Initializes working directory, downloads providers and modules",
+      "explanation": "'terraform init' initializes the directory and fetches required providers and modules."
+    }
+  ]
+}
