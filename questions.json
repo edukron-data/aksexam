@@ -2,7 +2,6 @@
   "title": "AKS Exam Quiz: Azure DevOps, AKS, Terraform (300 questions)",
   "questions": [
     
-    /* AKS: 100 questions */
     
     {"id":"aks-001","topic":"AKS","type":"mcq","question":"Which Kubernetes component runs on each node and is responsible for starting pods?","choices":["kube-apiserver","kubelet","kube-scheduler","etcd"],"answerIndex":1,"explanation":"The kubelet runs on each node and manages pods and containers."},
     {"id":"aks-002","topic":"AKS","type":"mcq","question":"What command shows cluster nodes with their status?","choices":["kubectl get pods","kubectl get nodes","kubectl describe pod","kubectl get services"],"answerIndex":1,"explanation":"Use `kubectl get nodes` to see cluster nodes and status."},
@@ -105,8 +104,7 @@
     {"id":"aks-099","topic":"AKS","type":"mcq","question":"Which Azure capability accelerates node provisioning using pre-provisioned nodes?","choices":["Node image caching","Virtual Nodes","Scale sets with node image pre-provisioning","AKS auto-provision"],"answerIndex":2,"explanation":"Using VMSS with pre-provisioned images can speed up node provisioning."},
     {"id":"aks-100","topic":"AKS","type":"mcq","question":"Which manifest key defines container health checks?","choices":["readinessProbe and livenessProbe","healthCheck","startupProbe only","probeConfig"],"answerIndex":0,"explanation":"readinessProbe and livenessProbe define container health checks."},
 
-    /* Terraform: 100 questions */
-
+    
     {"id":"tf-001","topic":"Terraform","type":"mcq","question":"What does `terraform init` do?","choices":["Applies infrastructure changes","Initializes working directory and downloads providers","Shows plan","Destroys infrastructure"],"answerIndex":1,"explanation":"`terraform init` initializes and downloads provider plugins and modules."},
     {"id":"tf-002","topic":"Terraform","type":"mcq","question":"Which file stores Terraform state by default?","choices":["terraform.tfstate","state.json","main.tfstate","backend.tf"],"answerIndex":0,"explanation":"By default Terraform stores state in `terraform.tfstate` locally unless a backend is configured."},
     {"id":"tf-003","topic":"Terraform","type":"mcq","question":"Which command shows proposed changes without applying?","choices":["terraform apply","terraform plan","terraform show","terraform preview"],"answerIndex":1,"explanation":"`terraform plan` shows what will change."},
@@ -208,8 +206,7 @@
     {"id":"tf-099","topic":"Terraform","type":"mcq","question":"Which command shows the plan in a saved file?","choices":["terraform show <planfile>","terraform read <planfile>","terraform view <planfile>","terraform apply <planfile>"],"answerIndex":0,"explanation":"`terraform show <planfile>` displays the contents of a saved plan file."},
     {"id":"tf-100","topic":"Terraform","type":"mcq","question":"Which feature lets you define provisioner execution order?","choices":["depends_on and provisioner `when`","lifecycle order","count order","provisioner_order"],"answerIndex":0,"explanation":"Provisioners can be controlled via implicit dependencies and resource ordering; `depends_on` helps enforce ordering."},
 
-    /* Azure DevOps: 100 questions */
-
+    
     {"id":"azdev-001","topic":"Azure DevOps","type":"mcq","question":"Which service in Azure DevOps manages source code?","choices":["Pipelines","Repos","Boards","Artifacts"],"answerIndex":1,"explanation":"Azure Repos hosts git repositories."},
     {"id":"azdev-002","topic":"Azure DevOps","type":"mcq","question":"Which service provides CI/CD capabilities in Azure DevOps?","choices":["Boards","Artifacts","Pipelines","Repos"],"answerIndex":2,"explanation":"Azure Pipelines provides CI/CD build and release capabilities."},
     {"id":"azdev-003","topic":"Azure DevOps","type":"mcq","question":"What is a Service Connection used for in Azure DevOps?","choices":["Store pipeline variables","Connect pipelines to external services like Azure subscriptions","Manage work items","Host git repos"],"answerIndex":1,"explanation":"Service connections securely store credentials to external services for pipelines."},
