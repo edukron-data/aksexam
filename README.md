@@ -69,6 +69,18 @@ Customization
 - Edit `questions.json` to update questions, answers, or add topics.
 - Update `BACKEND_ENDPOINT` in `script.js` to point to your collection endpoint.
 
+Run backend locally (optional)
+
+If you want to run the provided demo backend locally (for development or to collect submissions on a server you control):
+
+```bash
+cd <repo-root>
+npm install
+npm start
+```
+
+By default the Express server listens on port `3000` and exposes an endpoint `POST /submit` that accepts the same JSON payload the frontend sends. For local testing set `BACKEND_ENDPOINT` in `script.js` to `http://localhost:3000/submit`.
+
 Privacy & Security
 
 - Do not embed private API keys or tokens in the frontend — they will be public.
