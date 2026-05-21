@@ -2,19 +2,26 @@
 // For GitHub Pages, this should be a serverless URL (Google Apps Script, Azure Function, etc.)
 const BACKEND_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/your-id/exec"
 
+let QUIZ_DATA = null;
+const PAGE_SIZE = 10;
+let currentPage = 0; // zero-based
+
 async function loadQuestions(){
   const res = await fetch('questions.json');
-  return res.json();
+  QUIZ_DATA = await res.json();
+  return QUIZ_DATA;
 }
 
-function renderQuiz(data){
+function renderQuizPage(pageIndex){
   const container = document.getElementById('quiz');
   container.innerHTML = '';
-  data.questions.forEach((q, idx)=>{
+  const start = pageIndex * PAGE_SIZE;
+  const pageQuestions = QUIZ_DATA.questions.slice(start, start + PAGE_SIZE);
+  pageQuestions.forEach((q, idx)=>{
     const card = document.createElement('div');
     card.className = 'card question';
     const h = document.createElement('h3');
-    h.textContent = (idx+1) + '. ' + q.question;
+    h.textContent = (start + idx + 1) + '. ' + q.question;
     card.appendChild(h);
 
     if(q.type === 'mcq'){
@@ -38,11 +45,20 @@ function renderQuiz(data){
 
     container.appendChild(card);
   });
+  updatePageInfo();
 }
 
-function gatherAnswers(data){
+function updatePageInfo(){
+  const info = document.getElementById('pageInfo');
+  const totalPages = Math.ceil(QUIZ_DATA.questions.length / PAGE_SIZE);
+  info.textContent = `Page ${currentPage+1} / ${totalPages}`;
+}
+
+function gatherAnswersForPage(pageIndex){
+  const start = pageIndex * PAGE_SIZE;
+  const pageQuestions = QUIZ_DATA.questions.slice(start, start + PAGE_SIZE);
   const out = {responses:[], score:0, total:0};
-  data.questions.forEach(q=>{
+  pageQuestions.forEach(q=>{
     let resp = {id:q.id, topic:q.topic, type:q.type};
     if(q.type === 'mcq'){
       out.total++;
@@ -60,14 +76,16 @@ function gatherAnswers(data){
   return out;
 }
 
-function showResult(result, data){
+function showPageResult(result, pageIndex){
   const el = document.getElementById('result');
   el.classList.remove('hidden');
-  let html = `<div class='card'><h3>Result</h3>`;
+  const start = pageIndex * PAGE_SIZE;
+  let html = `<div class='card'><h3>Page Result</h3>`;
   html += `<p>Score: ${result.score} / ${result.total}</p>`;
-  html += `<details><summary>Answers & explanations</summary><div>`;
-  data.questions.forEach((q, idx)=>{
-    html += `<strong>${idx+1}. ${q.question}</strong><br>`;
+  html += `<details open><summary>Answers & explanations (this page)</summary><div>`;
+  const pageQuestions = QUIZ_DATA.questions.slice(start, start + PAGE_SIZE);
+  pageQuestions.forEach((q, idx)=>{
+    html += `<strong>${start + idx + 1}. ${q.question}</strong><br>`;
     if(q.type === 'mcq'){
       html += `Correct answer: ${q.choices[q.answerIndex]}<br>`;
     } else {
@@ -114,23 +132,41 @@ function saveLocal(payload){
   document.getElementById('status').textContent = 'Saved to localStorage.';
 }
 
-document.getElementById('submit').addEventListener('click', async ()=>{
-  const data = await loadQuestions();
-  const result = gatherAnswers(data);
-  showResult(result, data);
-  const payload = {submittedAt:new Date().toISOString(), result, questionsTitle:data.title};
+document.getElementById('submitPage').addEventListener('click', async ()=>{
+  const result = gatherAnswersForPage(currentPage);
+  showPageResult(result, currentPage);
+  const payload = {submittedAt:new Date().toISOString(), page:currentPage+1, result, questionsTitle:QUIZ_DATA.title};
   saveLocal(payload);
   await postSubmission(payload);
 });
 
-document.getElementById('saveLocal').addEventListener('click', async ()=>{
-  const data = await loadQuestions();
-  const result = gatherAnswers(data);
-  const payload = {submittedAt:new Date().toISOString(), result, questionsTitle:data.title};
+document.getElementById('savePage').addEventListener('click', async ()=>{
+  const result = gatherAnswersForPage(currentPage);
+  const payload = {submittedAt:new Date().toISOString(), page:currentPage+1, result, questionsTitle:QUIZ_DATA.title};
   saveLocal(payload);
 });
 
+document.getElementById('prev').addEventListener('click', ()=>{
+  if(currentPage > 0){
+    currentPage--;
+    renderQuizPage(currentPage);
+    document.getElementById('result').classList.add('hidden');
+  }
+});
+
+document.getElementById('next').addEventListener('click', ()=>{
+  const totalPages = Math.ceil(QUIZ_DATA.questions.length / PAGE_SIZE);
+  if(currentPage < totalPages - 1){
+    currentPage++;
+    renderQuizPage(currentPage);
+    document.getElementById('result').classList.add('hidden');
+  }
+});
+
 // initial render
-loadQuestions().then(renderQuiz).catch(err=>{
+loadQuestions().then(()=>{
+  currentPage = 0;
+  renderQuizPage(currentPage);
+}).catch(err=>{
   document.getElementById('quiz').innerText = 'Failed to load questions: ' + err.message;
 });
